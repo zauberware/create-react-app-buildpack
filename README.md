@@ -139,16 +139,13 @@ For variables that may change between releases or environments:
   * URLs to APIs
   * secret tokens
 
-Any environment variable is accessible at runtime, not just `REACT_APP_*`.
-
-Add script element to `index.html` to capture environment variable values:
+Add the following script element to `index.html` to get a JSON object of all `REACT_APP_*` variables:
 
 ```html
   <head>
     <!-- Existing head elements come first -->
     <script type="text/javascript">
-      react_app_env = {};
-      react_app_env.HELLO = '{{REACT_APP_HELLO}}';
+      ENV = {{REACT_APP_VARS_AS_JSON}};
     </script>
   </head>
 ```
@@ -156,7 +153,7 @@ Add script element to `index.html` to capture environment variable values:
 Then, use these globals within the React app.
 
 ```javascript
-const hello = react_app_env.HELLO;
+const hello = ENV.REACT_APP_HELLO;
 ```
 
 Globals are normally considered dirty, so you may build up a more acceptable pattern for using these values in an app, such as:
