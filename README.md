@@ -1,7 +1,7 @@
 Heroku Buildpack for create-react-app
 =====================================
 
-Deploy React.js web apps generated with [create-react-app](https://github.com/facebookincubator/create-react-app). Automates deployment with the built-in bundler and serves it up via [Nginx](http://nginx.org/en/). See the [introductory blog post](https://blog.heroku.com/deploying-react-with-zero-configuration) and entry in [Heroku elements](https://elements.heroku.com/buildpacks/mars/create-react-app-buildpack).
+Deploy React.js web apps generated with [create-react-app](https://github.com/facebookincubator/create-react-app). Automates deployment with the built-in bundler and serves it up via [Nginx](http://nginx.org/en/). See the [introductory blog post](https://blog.heroku.com/deploying-react-with-zero-configuration) and entry in [Heroku elements](https://elements.heroku.com/buildpacks/zauberware/create-react-app-buildpack).
 
 * ⚠️ [Requirements](#requires)
 * 🚀 [Quick Start](#quick-start)
@@ -49,7 +49,7 @@ Ensure [requirements](#requires) are met, then execute the following in a termin
 create-react-app $APP_NAME
 cd $APP_NAME
 git init
-heroku create $APP_NAME --buildpack https://github.com/mars/create-react-app-buildpack.git
+heroku create $APP_NAME --buildpack https://github.com/zauberware/create-react-app-buildpack.git
 git add .
 git commit -m "Start with create-react-app"
 git push heroku master
@@ -81,7 +81,7 @@ At this point, this new repo is local, only on your computer. Eventually, you ma
 ### Create the Heroku app
 
 ```bash
-heroku create $APP_NAME --buildpack https://github.com/mars/create-react-app-buildpack.git
+heroku create $APP_NAME --buildpack https://github.com/zauberware/create-react-app-buildpack.git
 ```
 
 ✏️ *Replace `$APP_NAME` with a name for your unique app.*
@@ -223,37 +223,6 @@ git commit --allow-empty -m "Set REACT_APP_HELLO config var"
 git push heroku master
 ```
 
-### Runtime configuration
-
-*Requires at least create-react-app 0.7.*
-
-Install the [runtime env npm package](https://www.npmjs.com/package/@mars/heroku-js-runtime-env):
-
-```bash
-npm install @mars/heroku-js-runtime-env --save
-```
-
-Then, require/import it to use the vars within components:
-
-```javascript
-import React, { Component } from 'react';
-import runtimeEnv from '@mars/heroku-js-runtime-env';
-
-class App extends Component {
-  render() {
-    // Load the env object.
-    const env = runtimeEnv();
-
-    // …then use values just like `process.env`
-    return (
-      <code>Runtime env var example: { env.REACT_APP_HELLO }</code>
-    );
-  }
-}
-```
-
-⚠️ *Avoid setting backslash escape sequences, such as `\n`, into Runtime config vars. Use literal UTF-8 values only; they will be automatically escaped.*
-
 ### Add-on config vars
 
 🤐 *Be careful not to export secrets. These values may be accessed by anyone who can see the React app.*
@@ -280,13 +249,13 @@ Version compatibility
 
 This buildpack will never intentionally cause previously deployed apps to become undeployable. Using master [as directed in the main instructions](#create-the-heroku-app) will always deploy an app with the most recent version of this buildpack.
 
-[Releases are tagged](https://github.com/mars/create-react-app-buildpack/releases), so you can lock an app to a specific version, if that kind of determinism pleases you:
+[Releases are tagged](https://github.com/zauberware/create-react-app-buildpack/releases), so you can lock an app to a specific version, if that kind of determinism pleases you:
 
 ```bash
-heroku buildpacks:set https://github.com/mars/create-react-app-buildpack.git#v1.2.1
+heroku buildpacks:set https://github.com/zauberware/create-react-app-buildpack.git#v1.2.1
 ```
 
-✏️ *Replace `v1.2.1` with the desired [release tag](https://github.com/mars/create-react-app-buildpack/releases).*
+✏️ *Replace `v1.2.1` with the desired [release tag](https://github.com/zauberware/create-react-app-buildpack/releases).*
 
 ♻️ Then, commit & deploy to rebuild on the new buildpack version.
 
@@ -299,7 +268,7 @@ This buildpack composes several buildpacks (specified in [`.buildpacks`](.buildp
 1. [`heroku/nodejs` buildpack](https://github.com/heroku/heroku-buildpack-nodejs)
   * complete Node.js enviroment to support the webpack build
   * `node_modules` cached between deployments
-2. [`mars/create-react-app-inner-buildpack`](https://github.com/mars/create-react-app-inner-buildpack)
+2. [`zauberware/create-react-app-inner-buildpack`](https://github.com/zauberware/create-react-app-inner-buildpack)
   * enables [runtime environment variables](#runtime-configuration)
   * generates the [default `static.json`](#customization)
   * performs the production build for create-react-app, `npm run build`
@@ -310,7 +279,7 @@ This buildpack composes several buildpacks (specified in [`.buildpacks`](.buildp
 
 ### General-purpose SPA deployment
 
-[Some kind feedback](https://github.com/mars/create-react-app-buildpack/issues/2) pointed out that this buildpack is not necessarily specific to `create-react-app`.
+[Some kind feedback](https://github.com/zauberware/create-react-app-buildpack/issues/2) pointed out that this buildpack is not necessarily specific to `create-react-app`.
 
 This buildpack can deploy any SPA [single-page app] as long as it meets the following requirements:
 
